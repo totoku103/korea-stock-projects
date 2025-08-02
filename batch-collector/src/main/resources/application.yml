@@ -2,6 +2,9 @@ spring:
   application:
     name: batch-collector
   
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+  
   datasource:
     url: jdbc:postgresql://localhost:5432/stock_db
     username: ${DB_USERNAME:postgres}
@@ -23,16 +26,41 @@ spring:
     jdbc:
       initialize-schema: always
 
+# KIS API 설정
+kis:
+  api:
+    app-key: ${KIS_APP_KEY:your-app-key}
+    app-secret: ${KIS_APP_SECRET:your-app-secret}
+    account-number: ${KIS_ACCOUNT_NUMBER:your-account-number}
+    environment: ${KIS_ENVIRONMENT:mock}
+    base-url: ${KIS_BASE_URL:}
+    ws-url: ${KIS_WS_URL:}
+    rate-limit:
+      requests-per-minute: ${KIS_RATE_LIMIT_PER_MIN:20}
+      requests-per-day: ${KIS_RATE_LIMIT_PER_DAY:10000}
+      max-concurrent-connections: ${KIS_MAX_CONNECTIONS:5}
+    timeout:
+      connection-timeout-ms: ${KIS_CONNECTION_TIMEOUT:5000}
+      read-timeout-ms: ${KIS_READ_TIMEOUT:30000}
+      write-timeout-ms: ${KIS_WRITE_TIMEOUT:30000}
+
 management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics
+        include: health,info,metrics,loggers
   endpoint:
     health:
       show-details: when-authorized
+    loggers:
+      enabled: true
 
 logging:
   level:
     com.stock: DEBUG
     org.springframework.batch: INFO
+    org.springframework.web.reactive: DEBUG
+    reactor.netty: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"

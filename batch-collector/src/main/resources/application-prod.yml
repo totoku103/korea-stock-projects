@@ -1,0 +1,30 @@
+# 운영 환경 설정
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+
+kis:
+  api:
+    environment: real
+    rate-limit:
+      requests-per-minute: 20
+      requests-per-day: 10000
+      max-concurrent-connections: 3
+    timeout:
+      connection-timeout-ms: 5000
+      read-timeout-ms: 30000
+      write-timeout-ms: 30000
+
+logging:
+  level:
+    com.stock: INFO
+    org.springframework.batch: INFO
+    org.springframework.web.reactive: WARN
+    reactor.netty: WARN
+    root: WARN
+  file:
+    name: logs/batch-collector-prod.log
+    max-size: 100MB
+    max-history: 30

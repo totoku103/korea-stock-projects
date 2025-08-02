@@ -480,10 +480,10 @@ open http://localhost:8080/swagger-ui.html
 #### 1단계: API 연동 환경 구축 (1-2주)
 
 ##### 1.1 한국투자증권 개발자 등록 및 API 키 발급
-- [ ] 한국투자증권 API 포털 회원가입
-- [ ] 앱 등록 및 API Key, Secret Key 발급
-- [ ] 모의투자 계좌 개설 (개발/테스트용)
-- [ ] API 사용 약관 및 제한사항 확인
+- [X] 한국투자증권 API 포털 회원가입
+- [X] 앱 등록 및 API Key, Secret Key 발급
+- [X] 모의투자 계좌 개설 (개발/테스트용)
+- [X] API 사용 약관 및 제한사항 확인
 
 ##### 1.2 기본 환경 설정
 - [ ] API 호출용 HTTP 클라이언트 설정 (WebClient)

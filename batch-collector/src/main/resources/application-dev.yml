@@ -1,0 +1,27 @@
+# 개발 환경 설정
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+kis:
+  api:
+    environment: mock
+    rate-limit:
+      requests-per-minute: 20
+      requests-per-day: 1000
+    timeout:
+      connection-timeout-ms: 10000
+      read-timeout-ms: 60000
+
+logging:
+  level:
+    com.stock: DEBUG
+    org.springframework.web.reactive: DEBUG
+    reactor.netty: DEBUG
+  file:
+    name: logs/batch-collector-dev.log

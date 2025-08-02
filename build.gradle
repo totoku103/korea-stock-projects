@@ -31,18 +31,34 @@ subprojects {
         }
     }
 
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+}
+
+// 모든 서브프로젝트에 Spring Boot 적용
+configure(subprojects) {
+    apply plugin: 'org.springframework.boot'
+    
     dependencies {
         implementation 'org.springframework.boot:spring-boot-starter'
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
     }
-
-    tasks.named('test') {
-        useJUnitPlatform()
-    }
 }
 
-configure(subprojects.findAll { it.name != 'common' }) {
-    apply plugin: 'org.springframework.boot'
+// common 모듈에 추가로 java-library 플러그인 적용
+configure(project(':common')) {
+    apply plugin: 'java-library'
+    
+    // common 모듈은 실행 가능하지 않음
+    jar {
+        enabled = true
+        archiveClassifier = ''
+    }
+    
+    bootJar {
+        enabled = false
+    }
 }
