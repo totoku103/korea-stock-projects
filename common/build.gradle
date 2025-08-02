@@ -12,6 +12,6 @@ dependencies {
     // Validation API
     api 'org.springframework.boot:spring-boot-starter-validation'
     
-    // PostgreSQL driver
-    runtimeOnly 'org.postgresql:postgresql'
+    // MariaDB driver
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 }

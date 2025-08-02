@@ -31,7 +31,7 @@
 #### 핵심 기술
 - **주 개발 언어**: Java
 - **빌드 도구**: Gradle (멀티모듈 구조)
-- **데이터베이스**: PostgreSQL (무료 오픈소스, 시계열 데이터 최적화)
+- **데이터베이스**: MariaDB 11.7.2 (무료 오픈소스, 시계열 데이터 최적화)
 
 #### 백엔드 개발
 - **Spring Batch**: 한국투자증권 API 데이터 수집 배치 처리
@@ -105,7 +105,7 @@ korea-stock-projects/
 - **한국투자증권 API 연동**: OAuth 인증 및 데이터 수집
 - **배치 작업 스케줄링**: 정기적 데이터 수집
 - **데이터 검증 및 정제**: 수집된 데이터의 무결성 검증
-- **데이터베이스 저장**: PostgreSQL에 배치 단위로 저장
+- **데이터베이스 저장**: MariaDB에 배치 단위로 저장
 
 #### 3. api-server 모듈 (Spring Boot WebFlux)
 - **RESTful API 제공**: 주식 데이터 조회 API
@@ -120,20 +120,21 @@ korea-stock-projects/
 - **반응형 웹**: 모바일 및 데스크톱 대응
 
 ### 데이터 흐름 아키텍처
-1. **수집**: batch-collector → 한국투자증권 API → PostgreSQL
-2. **가공**: api-server → PostgreSQL → Redis 캐싱
+1. **수집**: batch-collector → 한국투자증권 API → MariaDB
+2. **가공**: api-server → MariaDB → Redis 캐싱
 3. **제공**: React Frontend → api-server → 사용자
 4. **실시간**: WebSocket → 실시간 주가 스트리밍
 
 ## 기술 선택 근거
 
-### PostgreSQL 선택 이유
-1. **무료 오픈소스**: 라이선스 비용 없이 사용 가능
+### MariaDB 11.7.2 선택 이유
+1. **무료 오픈소스**: MySQL 호환성을 유지하며 라이선스 비용 없이 사용 가능
 2. **시계열 데이터 최적화**: 주식 데이터의 시간 기반 쿼리 성능 우수
-3. **JSON 지원**: 한국투자증권 API JSON 응답을 네이티브로 저장/조회
-4. **고성능**: 대용량 데이터 처리 및 복잡한 분석 쿼리 지원
+3. **JSON 지원**: 한국투자증권 API JSON 응답을 네이티브로 저장/조회 (JSON 데이터 타입 지원)
+4. **고성능**: 대용량 데이터 처리 및 복잡한 분석 쿼리 지원, InnoDB 엔진 최적화
 5. **Spring Boot 호환성**: JPA, R2DBC 모두 완벽 지원
-6. **확장성**: 파티셔닝, 인덱싱 등 고급 기능 제공
+6. **확장성**: 파티셔닝, 인덱싱, 컬럼스토어 등 고급 기능 제공
+7. **최신 기능**: MariaDB 11.7.2는 향상된 성능과 새로운 SQL 표준 지원
 
 ### Spring Boot WebFlux 선택 이유
 1. **실시간 스트리밍**: 주가 변동을 실시간으로 전송 (Server-Sent Events, WebSocket)
@@ -151,8 +152,8 @@ korea-stock-projects/
 
 ### 1단계: 프로젝트 기본 구조 설정
 1. **멀티모듈 Gradle 프로젝트 생성**: 루트, common, batch-collector, api-server 모듈
-2. **공통 의존성 설정**: Spring Boot, Spring Batch, Spring WebFlux, PostgreSQL
-3. **데이터베이스 설정**: PostgreSQL 설치 및 스키마 설계
+2. **공통 의존성 설정**: Spring Boot, Spring Batch, Spring WebFlux, MariaDB
+3. **데이터베이스 설정**: MariaDB 설치 및 스키마 설계
 4. **기본 설정 파일**: application.yml, logback.xml 등
 
 ### 2단계: 배치 수집 모듈 개발 (batch-collector)
@@ -331,14 +332,14 @@ npm run type-check
 
 ### 데이터베이스 관련 명령어
 ```bash
-# PostgreSQL 서비스 시작 (macOS)
-brew services start postgresql
+# MariaDB 서비스 시작 (macOS)
+brew services start mariadb
 
-# PostgreSQL 서비스 중지
-brew services stop postgresql
+# MariaDB 서비스 중지
+brew services stop mariadb
 
 # 데이터베이스 접속
-psql -U postgres -d stock_db
+mysql -u root -p stock_db
 
 # 스키마 마이그레이션 (Flyway 사용 시)
 ./gradlew flywayMigrate
@@ -356,7 +357,7 @@ docker-compose up --build
 docker-compose up -d
 
 # 특정 서비스만 실행
-docker-compose up postgres redis
+docker-compose up mariadb redis
 
 # 로그 확인
 docker-compose logs -f api-server
