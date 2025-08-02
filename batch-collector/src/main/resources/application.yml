@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: batch-collector
+  
+  datasource:
+    url: jdbc:postgresql://localhost:5432/stock_db
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:password}
+    driver-class-name: org.postgresql.Driver
+  
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+  
+  batch:
+    job:
+      enabled: false
+    jdbc:
+      initialize-schema: always
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when-authorized
+
+logging:
+  level:
+    com.stock: DEBUG
+    org.springframework.batch: INFO
