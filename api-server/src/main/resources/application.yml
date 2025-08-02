@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: api-server
+  
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/stock_db
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:password}
+  
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      timeout: 2000ms
+  
+  webflux:
+    base-path: /api/v1
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: when-authorized
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+logging:
+  level:
+    com.stock: DEBUG
+    org.springframework.web: INFO
+    reactor.netty: INFO
