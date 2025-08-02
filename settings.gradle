@@ -1,0 +1,5 @@
+rootProject.name = 'korea-stock-projects'
+
+include 'common'
+include 'batch-collector'
+include 'api-server'
