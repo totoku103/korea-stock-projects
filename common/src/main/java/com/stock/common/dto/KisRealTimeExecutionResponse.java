@@ -42,6 +42,6 @@ public record KisRealTimeExecutionResponse(
     ) {}
 
     public boolean isSuccessful() {
-        return "0".equals(returnCode);
+        return "0".equals(body.returnCode);
     }
 }
