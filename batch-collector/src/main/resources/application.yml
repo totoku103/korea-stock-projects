@@ -3,10 +3,10 @@ spring:
     name: batch-collector
   
   profiles:
-    active: ${SPRING_PROFILES_ACTIVE:dev}
+    active: ${SPRING_PROFILES_ACTIVE:local}
   
   datasource:
-    url: jdbc:mariadb://localhost:3306/stock_db
+    url: jdbc:mariadb://${DB_HOST:localhost}:${DB_PORT:3306}/stock
     username: ${DB_USERNAME:root}
     password: ${DB_PASSWORD:password}
     driver-class-name: org.mariadb.jdbc.Driver
@@ -29,12 +29,9 @@ spring:
 # KIS API 설정
 kis:
   api:
-    app-key: ${KIS_APP_KEY:your-app-key}
-    app-secret: ${KIS_APP_SECRET:your-app-secret}
-    account-number: ${KIS_ACCOUNT_NUMBER:your-account-number}
+    app-key: ${KIS_APP_KEY}
+    app-secret: ${KIS_APP_SECRET}
     environment: ${KIS_ENVIRONMENT:mock}
-    base-url: ${KIS_BASE_URL:}
-    ws-url: ${KIS_WS_URL:}
     rate-limit:
       requests-per-minute: ${KIS_RATE_LIMIT_PER_MIN:20}
       requests-per-day: ${KIS_RATE_LIMIT_PER_DAY:10000}

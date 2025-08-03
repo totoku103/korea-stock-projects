@@ -1,32 +1,27 @@
-# 테스트 환경 설정
+# 개발 환경 설정
 spring:
-  datasource:
-    url: jdbc:h2:mem:testdb
-    username: sa
-    password: 
-    driver-class-name: org.h2.Driver
-  
   jpa:
     hibernate:
       ddl-auto: create-drop
     show-sql: true
-    database-platform: org.hibernate.dialect.H2Dialect
+    properties:
+      hibernate:
+        format_sql: true
 
 kis:
   api:
     environment: mock
-    app-key: test-app-key
-    app-secret: test-app-secret
-    account-number: test-account
     rate-limit:
-      requests-per-minute: 100
-      requests-per-day: 10000
+      requests-per-minute: 20
+      requests-per-day: 1000
     timeout:
-      connection-timeout-ms: 5000
-      read-timeout-ms: 30000
+      connection-timeout-ms: 10000
+      read-timeout-ms: 60000
 
 logging:
   level:
     com.stock: DEBUG
-    org.springframework.batch: DEBUG
-    org.springframework.test: DEBUG
+    org.springframework.web.reactive: DEBUG
+    reactor.netty: DEBUG
+  file:
+    name: logs/batch-collector-dev.log

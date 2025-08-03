@@ -12,6 +12,9 @@ public final class KisApiConstants {
     public static final String TOKEN_ENDPOINT = "/oauth2/tokenP";
     public static final String TOKEN_REVOKE_ENDPOINT = "/oauth2/revokeP";
     
+    // WebSocket Endpoints
+    public static final String WEBSOCKET_APPROVAL_KEY_ENDPOINT = "/oauth2/Approval";
+    
     // Stock API Endpoints
     public static final String STOCK_PRICE_ENDPOINT = "/uapi/domestic-stock/v1/quotations/inquire-price";
     public static final String STOCK_ORDERBOOK_ENDPOINT = "/uapi/domestic-stock/v1/quotations/inquire-asking-price-exp-ccn";

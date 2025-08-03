@@ -5,6 +5,9 @@ dependencies {
     // Spring Data JPA for entity definitions
     api 'org.springframework.boot:spring-boot-starter-data-jpa'
     
+    // Spring WebFlux for reactive web client
+    api 'org.springframework.boot:spring-boot-starter-webflux'
+    
     // Jackson for JSON processing
     api 'com.fasterxml.jackson.core:jackson-databind'
     api 'com.fasterxml.jackson.core:jackson-annotations'
@@ -14,4 +17,10 @@ dependencies {
     
     // MariaDB driver
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+    
+    // Test dependencies
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'io.projectreactor:reactor-test'
+    testImplementation 'com.squareup.okhttp3:mockwebserver'
+    testImplementation 'org.assertj:assertj-core'
 }
