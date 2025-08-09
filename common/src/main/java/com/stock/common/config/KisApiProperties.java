@@ -5,11 +5,11 @@ import org.springframework.boot.context.properties.bind.ConstructorBinding;
 
 @ConfigurationProperties(prefix = "kis.api")
 public record KisApiProperties(
+    String baseUrl,
     String appKey,
     String appSecret,
     String accountNumber,
     String environment, // "real" or "mock"
-    String baseUrl,
     String wsUrl,
     RateLimit rateLimit,
     Timeout timeout
