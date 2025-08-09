@@ -42,16 +42,35 @@ public class RealTimeExecutionWebSocketHandler implements WebSocketHandler {
             if (payload.startsWith("{")) { // JSON
                 try {
                     KisRealTimeExecutionResponse response = objectMapper.readValue(payload, KisRealTimeExecutionResponse.class);
-                    if (response.isSuccessful()) {
-                        log.info("Received execution data: {}", response.body().output());
+                    
+                    String transactionId = response.header().transactionId();
+                    
+                    if ("PINGPONG".equals(transactionId)) {
+                        log.debug("Received PINGPONG message");
+                    } else if ("H0STCNT0".equals(transactionId)) {
+                        if (response.isSuccessful()) {
+                            log.info("Subscription successful for stock: {}", stockCode);
+                        } else {
+                            log.warn("Subscription failed: {}", response.body().message());
+                        }
                     } else {
-                        log.warn("Received non-successful message: {}", payload);
+                        // Actual execution data
+                        if (response.isSuccessful() && response.body().output() != null) {
+                            var output = response.body().output();
+                            // Only log if it's actual execution data (has price field)
+                            if (output.price() != null) {
+                                log.info("Received execution data for {}: price={}, volume={}", 
+                                    stockCode, output.price(), output.executionVolume());
+                            }
+                        } else {
+                            log.warn("Received non-successful execution message: {}", payload);
+                        }
                     }
                 } catch (Exception e) {
                     log.error("Error parsing execution data: {}", payload, e);
                 }
             } else { // PONG or other non-JSON messages
-                log.info("Received non-JSON message: {}", payload);
+                log.debug("Received non-JSON message: {}", payload);
             }
         });
     }
