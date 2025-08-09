@@ -21,6 +21,10 @@ public record KisWebSocketKeyResponse(
     }
     
     public boolean isSuccessful() {
+        // Some environments return only approval_key without msg fields
+        if (approvalKey != null && !approvalKey.trim().isEmpty()) {
+            return true;
+        }
         return "0".equals(messageCode);
     }
     
