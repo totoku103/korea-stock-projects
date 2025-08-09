@@ -30,8 +30,6 @@ public class KisApiService {
     
     // 헤더 상수
     private static final String HEADER_AUTHORIZATION = "Authorization";
-    private static final String HEADER_APP_KEY = "appkey";
-    private static final String HEADER_APP_SECRET = "appsecret";
     private static final String HEADER_TR_ID = "tr_id";
     private static final String HEADER_CUSTTYPE = "custtype";
     
