@@ -46,12 +46,11 @@ class KisApiIntegrationTest {
                 "test-app-key",
                 "test-app-secret",
                 "01234567-89",
-                "mock",
                 "ws://localhost:31000",
                 new KisApiProperties.RateLimit(20, 10000, 5),
                 new KisApiProperties.Timeout(5000, 30000, 30000)
         );
-        
+
         WebClient webClient = WebClient.builder()
                 .baseUrl(mockWebServer.url("/").toString())
                 .build();
@@ -63,7 +62,7 @@ class KisApiIntegrationTest {
         objectMapper = new ObjectMapper()
                 .registerModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule());
     }
-    
+
     @AfterEach
     void tearDown() throws IOException {
         if (mockWebServer != null) {
@@ -268,10 +267,10 @@ class KisApiIntegrationTest {
     void Mock_서비스_웹소켓_키_발급_테스트() {
         // Given
         KisMockService mockService = new KisMockService();
-        
+
         // When
         Mono<KisWebSocketKeyResponse> result = mockService.getMockWebSocketApprovalKey();
-        
+
         // Then
         StepVerifier.create(result)
                 .expectNextMatches(response -> {
@@ -288,21 +287,21 @@ class KisApiIntegrationTest {
     void Mock_서비스_API_키_유효성_검증_테스트() {
         // Given
         KisMockService mockService = new KisMockService();
-        
+
         // When & Then
         // 테스트 키는 유효하다고 판단
         assertThat(mockService.isValidApiKey("test-app-key", "test-app-secret")).isTrue();
-        
+
         // 실제 형식의 키는 유효하다고 판단
         assertThat(mockService.isValidApiKey("PAxxxxxxxxxxxxxxx", "XXxxxxxxxxxxxxxxx")).isTrue();
-        
+
         // 너무 짧거나 null인 키는 유효하지 않다고 판단
         assertThat(mockService.isValidApiKey("short", "key")).isFalse();
         assertThat(mockService.isValidApiKey(null, "test-app-secret")).isFalse();
         assertThat(mockService.isValidApiKey("test-app-key", null)).isFalse();
     }
 
-    @Test 
+    @Test
     void 인증_실패_403_오류_처리_테스트() throws Exception {
         // Given
         mockWebServer.enqueue(new MockResponse()
@@ -312,7 +311,7 @@ class KisApiIntegrationTest {
 
         // When & Then
         Mono<KisWebSocketKeyResponse> result = kisWebSocketKeyService.getWebSocketApprovalKey();
-        
+
         StepVerifier.create(result)
                 .expectErrorMatches(throwable -> {
                     assertThat(throwable).isInstanceOf(KisApiAuthenticationException.class);
@@ -333,7 +332,7 @@ class KisApiIntegrationTest {
                 86400L,
                 "2024-12-31 23:59:59"
         );
-        
+
         mockWebServer.enqueue(new MockResponse()
                 .setResponseCode(200)
                 .setHeader("Content-Type", "application/json")
@@ -341,7 +340,7 @@ class KisApiIntegrationTest {
 
         // 2. 주식현재가 응답
         KisStockPriceResponse stockPriceResponse = createMockStockPriceResponse();
-        
+
         mockWebServer.enqueue(new MockResponse()
                 .setResponseCode(200)
                 .setHeader("Content-Type", "application/json")
@@ -367,7 +366,7 @@ class KisApiIntegrationTest {
     void 주식현재가_조회_잘못된_종목코드_테스트() {
         // Given
         String invalidStockCode = "";
-        
+
         // When & Then
         assertThatThrownBy(() -> KisStockPriceRequest.kospi(invalidStockCode))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -379,7 +378,7 @@ class KisApiIntegrationTest {
         // Given
         String stockCode = "005930";
         String invalidMarket = "X";
-        
+
         // When & Then
         assertThatThrownBy(() -> new KisStockPriceRequest(stockCode, invalidMarket))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -391,16 +390,16 @@ class KisApiIntegrationTest {
         // Given
         KisTokenResponse tokenResponse = new KisTokenResponse(
                 "test-token-kospi",
-                "Bearer", 
+                "Bearer",
                 86400L,
                 "2024-12-31 23:59:59"
         );
-        
+
         mockWebServer.enqueue(new MockResponse()
                 .setResponseCode(200)
                 .setHeader("Content-Type", "application/json")
                 .setBody(objectMapper.writeValueAsString(tokenResponse)));
-                
+
         KisStockPriceResponse stockResponse = createMockStockPriceResponse();
         mockWebServer.enqueue(new MockResponse()
                 .setResponseCode(200)
@@ -429,7 +428,7 @@ class KisApiIntegrationTest {
                 86400L,
                 "2024-12-31 23:59:59"
         );
-        
+
         mockWebServer.enqueue(new MockResponse()
                 .setResponseCode(200)
                 .setHeader("Content-Type", "application/json")
