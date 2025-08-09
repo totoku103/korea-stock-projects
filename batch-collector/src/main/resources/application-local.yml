@@ -10,7 +10,7 @@ spring:
 
 kis:
   api:
-    environment: mock
+    environment: real
     rate-limit:
       requests-per-minute: 20
       requests-per-day: 1000

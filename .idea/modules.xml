@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/api-server/korea-stock-projects.api-server.main.iml" filepath="$PROJECT_DIR$/.idea/modules/api-server/korea-stock-projects.api-server.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/batch-collector/korea-stock-projects.batch-collector.main.iml" filepath="$PROJECT_DIR$/.idea/modules/batch-collector/korea-stock-projects.batch-collector.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/batch-collector/korea-stock-projects.batch-collector.test.iml" filepath="$PROJECT_DIR$/.idea/modules/batch-collector/korea-stock-projects.batch-collector.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/common/korea-stock-projects.common.main.iml" filepath="$PROJECT_DIR$/.idea/modules/common/korea-stock-projects.common.main.iml" />
     </modules>
   </component>
