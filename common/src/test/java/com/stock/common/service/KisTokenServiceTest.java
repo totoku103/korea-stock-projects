@@ -36,11 +36,11 @@ class KisTokenServiceTest {
         String baseUrl = String.format("http://localhost:%d", mockWebServer.getPort());
         
         kisApiProperties = new KisApiProperties(
+            baseUrl,
             "test-app-key",
             "test-app-secret",
             "01234567-89",
             "mock",
-            baseUrl,
             "ws://localhost:31000",
             new KisApiProperties.RateLimit(20, 10000, 5),
             new KisApiProperties.Timeout(5000, 30000, 30000)
