@@ -138,6 +138,41 @@ korea-stock-projects/
 3. **제공**: React Frontend → api-server → 사용자
 4. **실시간**: WebSocket → 실시간 주가 스트리밍
 
+## 데이터베이스 스키마
+
+### 테이블 구조
+프로젝트에서 사용하는 데이터베이스 테이블 DDL은 `docs/ddl/` 디렉토리에 관리됩니다.
+
+#### 주요 테이블
+
+##### 1. stock_information (주식 종목 정보)
+- **파일**: `docs/ddl/stock_information.sql`
+- **설명**: 한국투자증권 API로부터 수집한 종목 정보 및 거래 관련 데이터 저장
+- **주요 필드**:
+  - `short_code`: 단축코드 (종목코드)
+  - `standard_code`: 표준코드 (ISIN) - Primary Key
+  - `korean_name`: 종목 한글명
+  - `market_cap_scale`: 시가총액 규모
+  - `index_sector_*`: 업종 분류 (대/중/소분류)
+  - `is_kospi*`, `is_krx*`: 각종 지수 포함 여부
+  - `base_price`: 기준가
+  - `market_capitalization`: 시가총액
+  - `revenue`, `operating_profit`: 재무 정보
+  - `created_at`, `updated_at`: 생성/수정 일시
+
+##### 인덱스 구조
+- Primary Key: `standard_code`
+- 주요 인덱스:
+  - `idx_short_code`: 단축코드 조회 최적화
+  - `idx_korean_name`: 종목명 검색 최적화
+  - `idx_market_cap`: 시가총액 정렬 최적화
+  - `idx_trading_status`: 거래상태별 필터링 최적화
+
+### 데이터베이스 설정
+- **엔진**: InnoDB (트랜잭션 지원, 외래키 제약조건)
+- **문자셋**: utf8mb4_unicode_ci (한글 지원 및 정렬 최적화)
+- **타임스탬프**: 자동 생성/수정 시간 관리
+
 ## 기술 선택 근거
 
 ### MariaDB 11.7.2 선택 이유
