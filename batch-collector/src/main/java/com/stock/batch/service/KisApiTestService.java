@@ -2,6 +2,7 @@ package com.stock.batch.service;
 
 import com.stock.common.constants.KisApiConstants;
 import com.stock.common.dto.KisApiResponse;
+import com.stock.common.service.KisTokenService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
