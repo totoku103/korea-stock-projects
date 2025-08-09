@@ -28,8 +28,9 @@ spring:
 # KIS API 설정
 kis:
   api:
-    app-key: ${KIS_APP_KEY}
-    app-secret: ${KIS_APP_SECRET}
+    base-url: ${KIS_API_BASE_URL:https://openapivts.koreainvestment.com:29443}
+    app-key: ${KIS_API_APP_KEY:test-app-key}
+    app-secret: ${KIS_API_APP_SECRET:test-app-secret}
     environment: ${KIS_ENVIRONMENT:mock}
     rate-limit:
       requests-per-minute: ${KIS_RATE_LIMIT_PER_MIN:20}

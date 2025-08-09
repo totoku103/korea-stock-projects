@@ -14,8 +14,8 @@ spring:
       password: ${REDIS_PASSWORD:}
       timeout: 2000ms
   
-  webflux:
-    base-path: /api/v1
+# webflux:
+#   base-path: /api/v1
 
 server:
   port: 8080
@@ -34,6 +34,16 @@ springdoc:
     path: /api-docs
   swagger-ui:
     path: /swagger-ui.html
+
+kis:
+  api:
+    base-url: ${KIS_API_BASE_URL:https://openapivts.koreainvestment.com:29443}
+    app-key: ${KIS_API_APP_KEY:test-app-key}
+    app-secret: ${KIS_API_APP_SECRET:test-app-secret}
+    timeout:
+      connection-timeout-ms: 5000
+      read-timeout-ms: 30000
+      write-timeout-ms: 30000
 
 logging:
   level:
