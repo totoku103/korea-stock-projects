@@ -1,6 +1,7 @@
 
 package com.stock.common.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record KisRealTimeExecutionResponse(
@@ -22,7 +23,12 @@ public record KisRealTimeExecutionResponse(
         @JsonProperty("msg1") String message
     ) {}
 
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public record Output(
+        // Subscription response fields
+        @JsonProperty("iv") String iv,
+        @JsonProperty("key") String key,
+        
         // 체결 시간 (HHMMSS)
         @JsonProperty("STCK_CNTG_HOUR") String executionTime,
         // 주식 현재가
@@ -42,6 +48,6 @@ public record KisRealTimeExecutionResponse(
     ) {}
 
     public boolean isSuccessful() {
-        return "0".equals(body.returnCode);
+        return body != null && "0".equals(body.returnCode);
     }
 }
