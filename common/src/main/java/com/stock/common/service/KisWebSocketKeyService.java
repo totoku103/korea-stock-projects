@@ -41,7 +41,7 @@ public class KisWebSocketKeyService {
         );
         
         return webClient.post()
-                .uri(kisApiProperties.baseUrl() + KisApiConstants.WEBSOCKET_APPROVAL_KEY_ENDPOINT)
+                .uri(KisApiConstants.WEBSOCKET_APPROVAL_KEY_ENDPOINT)
                 .header(KisApiConstants.HEADER_CONTENT_TYPE, "application/json; charset=utf-8")
                 .bodyValue(request)
                 .retrieve()
