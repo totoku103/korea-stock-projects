@@ -52,11 +52,8 @@ public class KisWebClientConfig {
                 .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(1024 * 1024)) // 1MB
                 .build();
 
-        // Base URL 결정
-        String baseUrl = determineBaseUrl();
-
         return WebClient.builder()
-                .baseUrl(baseUrl)
+                .baseUrl(kisApiProperties.baseUrl())
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
                 .exchangeStrategies(strategies)
                 .defaultHeaders(this::setDefaultHeaders)
@@ -66,16 +63,6 @@ public class KisWebClientConfig {
                     filters.add(rateLimitFilter);
                 })
                 .build();
-    }
-
-    private String determineBaseUrl() {
-        if (kisApiProperties.baseUrl() != null && !kisApiProperties.baseUrl().isBlank()) {
-            return kisApiProperties.baseUrl();
-        }
-
-        return kisApiProperties.isRealEnvironment()
-                ? KisApiConstants.REAL_BASE_URL
-                : KisApiConstants.MOCK_BASE_URL;
     }
 
     private void setDefaultHeaders(HttpHeaders headers) {

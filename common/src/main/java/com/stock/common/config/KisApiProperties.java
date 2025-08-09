@@ -5,16 +5,15 @@ import org.springframework.boot.context.properties.bind.ConstructorBinding;
 
 @ConfigurationProperties(prefix = "kis.api")
 public record KisApiProperties(
-    String baseUrl,
-    String appKey,
-    String appSecret,
-    String accountNumber,
-    String environment, // "real" or "mock"
-    String wsUrl,
-    RateLimit rateLimit,
-    Timeout timeout
+        String baseUrl,
+        String appKey,
+        String appSecret,
+        String accountNumber,
+        String wsUrl,
+        RateLimit rateLimit,
+        Timeout timeout
 ) {
-    
+
     @ConstructorBinding
     public KisApiProperties {
         if (appKey == null || appKey.isBlank()) {
@@ -23,15 +22,12 @@ public record KisApiProperties(
         if (appSecret == null || appSecret.isBlank()) {
             throw new IllegalArgumentException("KIS API App Secret is required");
         }
-        if (environment == null || environment.isBlank()) {
-            environment = "mock";
-        }
     }
-    
+
     public record RateLimit(
-        int requestsPerMinute,
-        int requestsPerDay,
-        int maxConcurrentConnections
+            int requestsPerMinute,
+            int requestsPerDay,
+            int maxConcurrentConnections
     ) {
         public RateLimit {
             if (requestsPerMinute <= 0) {
@@ -45,11 +41,11 @@ public record KisApiProperties(
             }
         }
     }
-    
+
     public record Timeout(
-        int connectionTimeoutMs,
-        int readTimeoutMs,
-        int writeTimeoutMs
+            int connectionTimeoutMs,
+            int readTimeoutMs,
+            int writeTimeoutMs
     ) {
         public Timeout {
             if (connectionTimeoutMs <= 0) {
@@ -62,13 +58,5 @@ public record KisApiProperties(
                 writeTimeoutMs = 30000;
             }
         }
-    }
-    
-    public boolean isRealEnvironment() {
-        return "real".equalsIgnoreCase(environment);
-    }
-    
-    public boolean isMockEnvironment() {
-        return "mock".equalsIgnoreCase(environment);
     }
 }
