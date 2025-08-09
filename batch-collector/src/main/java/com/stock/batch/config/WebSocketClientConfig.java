@@ -1,16 +1,16 @@
 
 package com.stock.batch.config;
 
-import com.stock.common.config.KisWebClientConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.socket.client.ReactorNettyWebSocketClient;
+import org.springframework.web.reactive.socket.client.WebSocketClient;
 
 @Configuration
 public class WebSocketClientConfig {
 
     @Bean
-    public WebClient webSocketClient(KisWebClientConfig kisWebClientConfig) {
-        return kisWebClientConfig.kisApiWebClient();
+    public WebSocketClient webSocketClient() {
+        return new ReactorNettyWebSocketClient();
     }
 }
