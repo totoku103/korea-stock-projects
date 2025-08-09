@@ -57,6 +57,21 @@ public class KisTokenService {
         return Mono.just(token.getBearerToken());
     }
 
+    // --- Backward-compatible APIs for existing controllers ---
+    /**
+     * Legacy: issue a new access token (compat shim for older callers)
+     */
+    public Mono<KisTokenResponse> issueNewAccessToken() {
+        return requestNewToken();
+    }
+
+    /**
+     * Legacy: get access token (returns full response for compatibility)
+     */
+    public Mono<KisTokenResponse> getAccessToken() {
+        return requestNewToken();
+    }
+
     /**
      * 새로운 액세스 토큰 요청
      */
@@ -111,6 +126,14 @@ public class KisTokenService {
     }
 
     /**
+     * Legacy: revoke a provided token string. We ignore the argument and
+     * revoke the currently cached token to maintain behavior.
+     */
+    public Mono<Void> revokeToken(String token) {
+        return revokeToken();
+    }
+
+    /**
      * 현재 토큰 상태 확인
      */
     public boolean hasValidToken() {
@@ -124,6 +147,20 @@ public class KisTokenService {
     public LocalDateTime getTokenExpirationTime() {
         KisTokenResponse token = currentToken.get();
         return token != null ? token.getExpiresAt() : null;
+    }
+
+    /**
+     * Legacy: invalidate cached token explicitly
+     */
+    public void invalidateCache() {
+        currentToken.set(null);
+    }
+
+    /**
+     * Legacy: return cached token response if present
+     */
+    public KisTokenResponse getCachedToken() {
+        return currentToken.get();
     }
 
     private boolean isRetryableException(Throwable throwable) {
