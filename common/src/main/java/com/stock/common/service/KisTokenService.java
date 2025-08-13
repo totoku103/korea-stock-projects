@@ -76,10 +76,17 @@ public class KisTokenService {
      * 새로운 액세스 토큰 요청
      */
     public Mono<KisTokenResponse> requestNewToken() {
-        KisTokenRequest request = KisTokenRequest.of(
-            kisApiProperties.appKey(),
-            kisApiProperties.appSecret()
-        );
+        String appKey = kisApiProperties.appKey();
+        String appSecret = kisApiProperties.appSecret();
+        
+        // AppKey 로깅 (보안을 위해 마지막 4자리만 표시)
+        String maskedAppKey = appKey.length() > 4 ? 
+            "*".repeat(appKey.length() - 4) + appKey.substring(appKey.length() - 4) : 
+            "*".repeat(appKey.length());
+        logger.info("토큰 요청 시 사용되는 AppKey: {}", maskedAppKey);
+        logger.info("토큰 요청 URL: {}{}", webClient.mutate().build(), KisApiConstants.TOKEN_ENDPOINT);
+        
+        KisTokenRequest request = KisTokenRequest.of(appKey, appSecret);
 
         return webClient.post()
             .uri(KisApiConstants.TOKEN_ENDPOINT)
